@@ -1,0 +1,45 @@
+.container {
+    padding: 30px 0px;
+    
+    figure {
+        max-width: 100px;
+
+        img {
+            width: 100%;
+        }
+    }
+    .navMenu {
+      
+        a {
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            letter-spacing: 1px;
+    
+            &::before {
+            content: attr(data-item);
+            transition: 0.2s;
+            color: var(--secondary);
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 0;
+            overflow: hidden;
+            }
+    
+            &:hover {
+            &::before {
+                width: 100%;
+                transition: all 0.3s ease-in-out;
+            }
+            }
+        }
+    }
+}
+
+
+
+
+
+
