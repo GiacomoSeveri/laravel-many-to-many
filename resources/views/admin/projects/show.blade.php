@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', 'eccoci')
-
 @section('content')
 <section id="scheda">
     <div class="container">
@@ -29,19 +28,13 @@
                 @else
                 <h1>nessuna immagine di riferimento</h1>
                 @endif
-                <div class="text-start my-4">
-                    <ul>
-                        <h6>Categoria</h6>
-                        {{-- @foreach($categories as $category) --}}
-                        <li>{{ $project->category?->label }}</li>
-                        {{-- @endforeach --}}
-                    </ul>
-                </div>
-                <div class="text-start my-4">
-                    <ul>
-                        <h6>Collaboratori</h6>
-                        <li>{{ $project->collab }}</li>
-                    </ul>
+                <div class="text-start my-5">
+                    <span><strong>Categoria: </strong>{{ $project->category?->label }} - </span>
+                    <span><strong>Collaboratori: </strong>{{ $project->collab }} - </span>
+                    <span><strong>Linguaggi: </strong>
+                        @forelse($project->lenguages as $leng)
+                        {{$leng->label}}, @empty Nessuno 
+                        @endforelse</span>
                 </div>
             </div>
         </div>

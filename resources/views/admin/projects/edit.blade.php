@@ -3,6 +3,19 @@
 @section('title', 'modifica')
 
 @section('content')
+
+<div class="container p-0">
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{$error}}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+</div>
+
 <section id="edit">
     <div class="container">
         <form method="POST" action="{{ route('admin.projects.update', $project->id) }}" enctype="multipart/form-data">
@@ -11,7 +24,7 @@
             <div class="row">
                 <div class="mb-3 col-6">
                     <label for="title" class="form-label">Titolo</label>
-                    <input type="text" class="form-control" id="title" name="title" required value="{{old('title', $project->title)}}">
+                    <input type="text" class="form-control" id="title" name="title" value="{{old('title', $project->title)}}">
                 </div>
                 <div class="mb-3 col-6">
                     <label for="slug" class="form-label">Titolo</label>
@@ -32,7 +45,15 @@
                 </div>
             <div class="mb-3 col-12">
                 <label for="content" class="form-label">Paragrafo</label>
-                <textarea class="form-control" id="content" name="content" rows="6" required>{{old('content', $project->content)}}</textarea>
+                <textarea class="form-control" id="content" name="content" rows="6">{{old('content', $project->content)}}</textarea>
+            </div>
+            <div class="mb-3 col-10">
+                @foreach($leng as $len)
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="tag-{{$len->label}}" value="{{$len->id}}" name="tag[]">
+                    <label class="form-check-label" for="tag-{{$len->label}}">{{$len->label}}</label>
+                </div>
+                @endforeach
             </div>
             <div class="mb-3 col-4">
                 <label for="collab" class="form-label">Collaborazioni</label>

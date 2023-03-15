@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
 use App\Models\Category;
+use App\Models\Lenguage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+// use Illuminate\Validation\Validator;
 
 class ProjectController extends Controller
 {
@@ -29,7 +31,8 @@ class ProjectController extends Controller
     {
         $project = new Project();
         $categories = Category::all();
-        return view('admin.projects.create', compact('project', 'categories'));
+        $leng = Lenguage::all();
+        return view('admin.projects.create', compact('project', 'categories', 'leng'));
     }
 
     /**
@@ -37,6 +40,26 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate(
+            [
+                'title' => 'required|string|unique:projects',
+                // 'category_id' => 'nullable|exist:categories,id',
+                'image' => 'nullable|image|mimes:jpeg,jpg,png',
+                'content' => 'required|string',
+                // 'tag[]' => 'nullable|exist:leng,id'
+            ],
+            [
+                'title.required' => 'il titolo è obbligatorio.',
+                'title.unique' => "esiste già un post con questo titolo: $request->title.",
+                'content.required' => 'non hai messo nussana descrizione',
+                'image.image' => 'l\'immagine deve essere un file immagine',
+                'image.mimes' => 'le estenzioni accettate sono: jpeg, jpg, png',
+                // 'category_id' => 'categoria non valida',
+                // 'tag[]' => 'i tag selezionati non sono validi'
+            ]
+        );
+
         $data = $request->all();
 
         $data['slug'] = Str::slug($data['title'], '-');
@@ -51,6 +74,8 @@ class ProjectController extends Controller
 
         $project->fill($data);
         $project->save();
+
+        if (Arr::exists($data, 'lenguage')) $project->lenguages()->attach($data['lenguage']);
 
         return  to_route('admin.projects.show', compact('project'));
     }
@@ -71,8 +96,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
+        $leng = Lenguage::all();
 
-        return view('admin.projects.edit', compact('project', 'categories'));
+        return view('admin.projects.edit', compact('project', 'categories', 'leng'));
     }
 
     /**
@@ -80,6 +106,24 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $request->validate(
+            [
+                'title' => 'required|string|',
+                // 'category_id' => 'nullable|exist:categories,id',
+                'image' => 'nullable|image|mimes:jpeg,jpg,png',
+                'content' => 'required|string',
+                // 'tag[]' => 'nullable|exist:leng,id'
+            ],
+            [
+                'title.required' => 'il titolo è obbligatorio.',
+                'content.required' => 'non hai messo nussana descrizione',
+                'image.image' => 'l\'immagine deve essere un file immagine',
+                'image.mimes' => 'le estenzioni accettate sono: jpeg, jpg, png',
+                // 'category_id' => 'categoria non valida',
+                // 'tag[]' => 'i tag selezionati non sono validi'
+            ]
+        );
+
         $data = $request->all();
 
         $data['slug'] = Str::slug($data['title'], '-');
@@ -91,6 +135,9 @@ class ProjectController extends Controller
         }
 
         $project->update($data);
+
+        if (Arr::exists($data, 'lenguage')) $project->lenguages()->sync($data['lenguage']);
+        else $project->lenguages()->detach();
 
         return to_route('admin.projects.show', compact('project'));
     }
