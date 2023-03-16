@@ -29,12 +29,12 @@
                 <h1>nessuna immagine di riferimento</h1>
                 @endif
                 <div class="text-start my-5">
-                    <span><strong>Categoria: </strong>{{ $project->category?->label }} - </span>
-                    <span><strong>Collaboratori: </strong>{{ $project->collab }} - </span>
-                    <span><strong>Linguaggi: </strong>
+                    <strong>Categoria: </strong>{{ $project->category?->label }} - 
+                    <strong>Collaboratori: </strong>{{ $project->collab }} - 
+                    <strong>Linguaggi: </strong>
                         @forelse($project->lenguages as $leng)
-                        {{$leng->label}}, @empty Nessuno 
-                        @endforelse</span>
+                        {{$leng->label}} @empty Nessuno 
+                        @endforelse
                 </div>
             </div>
         </div>

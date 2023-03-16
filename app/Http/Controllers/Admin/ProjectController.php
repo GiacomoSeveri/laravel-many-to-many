@@ -31,8 +31,8 @@ class ProjectController extends Controller
     {
         $project = new Project();
         $categories = Category::all();
-        $leng = Lenguage::all();
-        return view('admin.projects.create', compact('project', 'categories', 'leng'));
+        $lenguage = Lenguage::all();
+        return view('admin.projects.create', compact('project', 'categories', 'lenguage'));
     }
 
     /**
@@ -47,7 +47,7 @@ class ProjectController extends Controller
                 // 'category_id' => 'nullable|exist:categories,id',
                 'image' => 'nullable|image|mimes:jpeg,jpg,png',
                 'content' => 'required|string',
-                // 'tag[]' => 'nullable|exist:leng,id'
+                // 'tag[]' => 'nullable|exist:lenguage,id'
             ],
             [
                 'title.required' => 'il titolo è obbligatorio.',
@@ -96,9 +96,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
-        $leng = Lenguage::all();
+        $lenguage = Lenguage::all();
 
-        return view('admin.projects.edit', compact('project', 'categories', 'leng'));
+        return view('admin.projects.edit', compact('project', 'categories', 'lenguage'));
     }
 
     /**
@@ -112,7 +112,7 @@ class ProjectController extends Controller
                 // 'category_id' => 'nullable|exist:categories,id',
                 'image' => 'nullable|image|mimes:jpeg,jpg,png',
                 'content' => 'required|string',
-                // 'tag[]' => 'nullable|exist:leng,id'
+                // 'tag[]' => 'nullable|exist:lenguage,id'
             ],
             [
                 'title.required' => 'il titolo è obbligatorio.',
