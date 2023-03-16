@@ -74,8 +74,8 @@ class ProjectController extends Controller
 
         $project->fill($data);
         $project->save();
-
-        if (Arr::exists($data, 'lenguage')) $project->lenguages()->attach($data['lenguage']);
+        // @dd($data);
+        if (Arr::exists($data, 'lenguages')) $project->lenguages()->attach($data['lenguages']);
 
         return  to_route('admin.projects.show', compact('project'));
     }
@@ -98,7 +98,11 @@ class ProjectController extends Controller
         $categories = Category::all();
         $lenguage = Lenguage::all();
 
-        return view('admin.projects.edit', compact('project', 'categories', 'lenguage'));
+        $project_leng = $project->lenguages->pluck('id')->toArray();
+
+        // @dd($project_leng);
+
+        return view('admin.projects.edit', compact('project', 'categories', 'lenguage', 'project_leng'));
     }
 
     /**
@@ -136,7 +140,7 @@ class ProjectController extends Controller
 
         $project->update($data);
 
-        if (Arr::exists($data, 'lenguage')) $project->lenguages()->sync($data['lenguage']);
+        if (Arr::exists($data, 'lenguages')) $project->lenguages()->sync($data['lenguages']);
         else $project->lenguages()->detach();
 
         return to_route('admin.projects.show', compact('project'));

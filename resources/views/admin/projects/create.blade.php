@@ -53,7 +53,7 @@
             <div class="mb-3 col-10">
                 @foreach($lenguage as $leng)
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="tag-{{$leng->label}}" value="{{$leng->id}}" name="tag[]" @if (in_array($leng->id, old('lenguage', []))) checked @endif>
+                    <input class="form-check-input" type="checkbox" id="tag-{{$leng->label}}" value="{{$leng->id}}" name="lenguages[]">
                     <label class="form-check-label" for="tag-{{$leng->label}}">{{$leng->label}}</label>
                 </div>
                 @endforeach

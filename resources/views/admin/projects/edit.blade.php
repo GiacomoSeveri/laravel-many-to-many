@@ -49,8 +49,9 @@
             </div>
             <div class="mb-3 col-10">
                 @foreach($lenguage as $leng)
+                {{-- @dd($project->lenguages) --}}
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="tag-{{$leng->label}}" value="{{$leng->id}}" name="tag[]">
+                    <input class="form-check-input" type="checkbox" id="tag-{{$leng->label}}" value="{{$leng->id}}" name="lenguages[]" @if (in_array($leng->id, $project_leng)) checked @endif>
                     <label class="form-check-label" for="tag-{{$leng->label}}">{{$leng->label}}</label>
                 </div>
                 @endforeach
